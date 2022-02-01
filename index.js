@@ -49,9 +49,7 @@ class Tile {
 	}
 }
 
-gadaffi_img.onload = () => {
-	diesel_img.onload = () => {
-		mouth_img.onload = () => {
+
 			for (var i = 0; i < Math.floor(canvas.width / size) - 1; i++) {
 				map.push([]);
 				for (var j = 0; j < Math.floor(canvas.height / size) - 1; j++) {
@@ -66,9 +64,7 @@ gadaffi_img.onload = () => {
 				}
 			}
 			setInterval(gameStep, 100);
-		}
-	}
-}
+
 
 var last_button = "right";
 
