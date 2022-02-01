@@ -48,25 +48,27 @@ class Tile {
 		this.mouth = false;
 	}
 }
-gadaffi_img.onload = () => {
 
-			for (var i = 0; i < Math.floor(canvas.width / size) - 1; i++) {
-				map.push([]);
-				for (var j = 0; j < Math.floor(canvas.height / size) - 1; j++) {
-					var x = (i+1) * size;
-					var y = (j+1) * size;
-					if ((i + j) % 2 == 0) {
-						map[i].push(new Tile('#e0bf72', x, y));
-					} else {
-						map[i].push(new Tile('#a88e51', x, y));
-					}
-					map[i][j].draw();
-				}
+gadaffi_img.onload = () => {
+	for (var i = 0; i < Math.floor(canvas.width / size) - 1; i++) {
+		map.push([]);
+		for (var j = 0; j < Math.floor(canvas.height / size) - 1; j++) {
+			var x = (i+1) * size;
+			var y = (j+1) * size;
+			if ((i + j) % 2 == 0) {
+				map[i].push(new Tile('#e0bf72', x, y));
+			} else {
+				map[i].push(new Tile('#a88e51', x, y));
 			}
-			setInterval(gameStep, 100);
+			map[i][j].draw();
+		}
+	}
+	setInterval(gameStep, 100);
 }
 
 var last_button = "right";
+
+var paused = false;
 
 document.addEventListener('keydown', (e) => {
 	switch(e.code){
@@ -90,6 +92,9 @@ document.addEventListener('keydown', (e) => {
 			if(last_button !== 'down')
 				last_button = 'up';
 			break;
+		case 'Escape':
+			paused = !paused;
+			break;
 	}
 });
 
@@ -107,41 +112,43 @@ function moveApple(){
 }
 
 function gameStep () {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	if(!paused){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	if(last_button === 'right'){
-		player.unshift([player[0][0] + 1, player[0][1]]);
-	} else if (last_button === "down") {
-		player.unshift([player[0][0], player[0][1] + 1]);
-	} else if (last_button === "left") {
-		player.unshift([player[0][0] - 1, player[0][1]]);
-	} else {
-		player.unshift([player[0][0], player[0][1] - 1]);
-	}
-
-	if(player[0][0] === apple[0] && player[0][1] === apple[1]){
-		moveApple();
-		map[player[0][0]][player[0][1]].mouth = true;
-	} else {
-		player.pop();
-	}
-
-	for(let i = 0; i < player.length; i++){
-		try {
-			if(!map[player[i][0]][player[i][1]].gadaffi)
-				map[player[i][0]][player[i][1]].gadaffi = true;
-			else
-				reset();
-		} catch {
-			reset();
+		if(last_button === 'right'){
+			player.unshift([player[0][0] + 1, player[0][1]]);
+		} else if (last_button === "down") {
+			player.unshift([player[0][0], player[0][1] + 1]);
+		} else if (last_button === "left") {
+			player.unshift([player[0][0] - 1, player[0][1]]);
+		} else {
+			player.unshift([player[0][0], player[0][1] - 1]);
 		}
-	}
-
-	map[apple[0]][apple[1]].diesel = true;
-
-	for(let x = 0; x < map.length; x++){
-		for(let y = 0; y < map[0].length; y++){
-			map[x][y].draw();
+	
+		if(player[0][0] === apple[0] && player[0][1] === apple[1]){
+			moveApple();
+			map[player[0][0]][player[0][1]].mouth = true;
+		} else {
+			player.pop();
+		}
+	
+		for(let i = 0; i < player.length; i++){
+			try {
+				if(!map[player[i][0]][player[i][1]].gadaffi)
+					map[player[i][0]][player[i][1]].gadaffi = true;
+				else
+					reset();
+			} catch {
+				reset();
+			}
+		}
+	
+		map[apple[0]][apple[1]].diesel = true;
+	
+		for(let x = 0; x < map.length; x++){
+			for(let y = 0; y < map[0].length; y++){
+				map[x][y].draw();
+			}
 		}
 	}
 }
