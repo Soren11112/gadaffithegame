@@ -48,7 +48,7 @@ class Tile {
 		this.mouth = false;
 	}
 }
-
+gadaffi_img.onload = () => {
 
 			for (var i = 0; i < Math.floor(canvas.width / size) - 1; i++) {
 				map.push([]);
@@ -64,7 +64,7 @@ class Tile {
 				}
 			}
 			setInterval(gameStep, 100);
-
+}
 
 var last_button = "right";
 
