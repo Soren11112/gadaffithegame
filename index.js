@@ -13,13 +13,13 @@ var map = [];
 
 
 var gadaffi_img = new Image();
-gadaffi_img.src = './gadaffi.png';
+gadaffi_img.src = '/gadaffi.png';
 
 var mouth_img = new Image();
-mouth_img.src = './gadaffimouth.png';
+mouth_img.src = '/gadaffimouth.png';
 
 var diesel_img = new Image();
-diesel_img.src = './diesel.png';
+diesel_img.src = '/diesel.png';
 
 class Tile {
 	constructor (color, x, y){
